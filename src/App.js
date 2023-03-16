@@ -5,12 +5,14 @@ import Habitos from "./pages/Habitos";
 import Historico from "./pages/Historico";
 import Hoje from "./pages/Hoje";
 import Login from "./pages/Inicio/Login";
+import Topo from "./components/Topo";
+import Menu from "./components/Menu";
 
 export default function App() {
   return (
     <MainContainer>
       <BrowserRouter>
-    {/* <Topo e Menu /> */}
+      <Topo />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
@@ -18,6 +20,7 @@ export default function App() {
         <Route path="/hoje" element={<Hoje />} />
         <Route path="/historico" element={<Historico />} />
       </Routes>
+      <Menu />
     </BrowserRouter>
     </MainContainer>
     
