@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { BsTrash } from 'react-icons/bs';
+import { SectionContainer } from "../styles/SectionContainer";
 
 export default function Habitos() {
   return (
-    <HabitosContainer>
-      <HabitosMenu>
+    <SectionContainer>
+      <HabitosTitulo>
         <h2>Meus Hábitos</h2>
         <button>+</button>
-      </HabitosMenu>
+      </HabitosTitulo>
       <InputBox>
         <InputInfo>
           <input type="text" placeholder="nome do hábito" />
@@ -45,7 +46,7 @@ export default function Habitos() {
         Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
         começar a trackear!
       </Aviso>
-    </HabitosContainer>
+    </SectionContainer>
   );
 }
 
@@ -105,15 +106,7 @@ const HabitoBox = styled.div`
   }
 `;
 
-const HabitosContainer = styled.section`
-  min-height: calc(100vh - 70px);
-  padding: 28px 17px 110px;
-  margin-top: 70px;
-  background-color: #f2f2f2;
-  box-sizing: border-box;
-`;
-
-const HabitosMenu = styled.div`
+const HabitosTitulo = styled.div`
   display: flex;
   justify-content: space-between;
   h2 {
