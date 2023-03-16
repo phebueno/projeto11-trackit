@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { SectionContainer } from "../styles/SectionContainer";
 import { BsFillCheckSquareFill } from "react-icons/bs";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
 
 export default function Hoje() {
+  const objetoRecebido = useContext(UserContext);
   const percentage = 50;
+
+  console.log(objetoRecebido);
   return (
     <SectionContainer>
       <HojeTitulo>
