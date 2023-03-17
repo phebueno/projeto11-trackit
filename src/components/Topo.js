@@ -1,17 +1,26 @@
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
 
 export default function Topo() {
   const location = useLocation();
   const user = useContext(UserContext);
+  const navigate = useNavigate();
+
+  function deslogar(){
+    const res = window.confirm("Deseja sair?");
+    if(res){
+      localStorage.removeItem("lista");
+      navigate("/");
+    }
+  }
 
   if (location.pathname !== "/" && location.pathname !== "/cadastro") {
     return (
       <Header data-test="header">
         <h1>TrackIt</h1>
-        <img src={user.image} alt="" />
+        <img onClick={deslogar} src={user.image} alt="" />
       </Header>
     );
   }

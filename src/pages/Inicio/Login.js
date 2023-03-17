@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { FormBox, StartBox } from "./styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../constants/urls";
 import { ThreeDots } from "react-loader-spinner";
@@ -19,6 +19,17 @@ export default function Login({ setUsuarioLogado }) {
     setLoginUsuario({ ...loginUsuario, [e.target.name]: e.target.value });
   }
 
+  //Procura se tem um usuário já logado
+  useEffect(() => {
+    const listaSerializada = localStorage.getItem("lista");
+    const lista = JSON.parse(listaSerializada);
+    if (lista !== null) {
+      //Encontrou registro de usuário
+      setUsuarioLogado(lista);
+      navigate("/hoje");
+    }
+  }, [setUsuarioLogado, navigate]);
+
   function login(e) {
     setCarregando(true);
     e.preventDefault();
@@ -28,6 +39,9 @@ export default function Login({ setUsuarioLogado }) {
       .then((res) => {
         console.log(res);
         setUsuarioLogado(res.data);
+        //Cria um localStorage para os dados do usuário
+        const dadosSerializados = JSON.stringify(res.data); // String '{"nome":"Pedro","idade":30}'
+        localStorage.setItem("lista", dadosSerializados);
         navigate("/hoje");
       })
       .catch((err) => {
