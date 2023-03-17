@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Calendario from "../components/Calendario";
 import { SectionContainer } from "../styles/SectionContainer";
 
 export default function Historico() {
@@ -8,7 +9,7 @@ export default function Historico() {
         <h2>Histórico</h2>
       </HojeTitulo>
       <HistoricoBox>
-        <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
+        <Calendario />
       </HistoricoBox>
     </SectionContainer>
   );
