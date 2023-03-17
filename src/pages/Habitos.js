@@ -43,7 +43,7 @@ export default function Habitos() {
     <SectionContainer>
       <HabitosTitulo>
         <h2>Meus Hábitos</h2>
-        <button onClick={() => setInputHabito(true)}>+</button>
+        <button data-test="habit-create-btn" onClick={() => setInputHabito(true)}>+</button>
       </HabitosTitulo>
       {inputHabito && (
         <Habito

@@ -12,9 +12,11 @@ export default function Menu() {
 
   if (location.pathname !== "/" && location.pathname !== "/cadastro") {
     return (
-      <Footer>
-        <LinkComum to="/habitos">Hábitos</LinkComum>
-        <LinkHoje to="/hoje">
+      <Footer data-test="menu">
+        <LinkComum data-test="habit-link" to="/habitos">
+          Hábitos
+        </LinkComum>
+        <LinkHoje data-test="today-link" to="/hoje">
           <StyledProgressBar
             background={true}
             backgroundPadding={6}
@@ -23,7 +25,9 @@ export default function Menu() {
             text="Hoje"
           />
         </LinkHoje>
-        <LinkComum to="/historico">Histórico</LinkComum>
+        <LinkComum data-test="history-link" to="/historico">
+          Histórico
+        </LinkComum>
       </Footer>
     );
   }
@@ -40,7 +44,7 @@ const stylesProgressBar = {
 const Footer = styled.footer`
   height: 70px;
   width: inherit;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;

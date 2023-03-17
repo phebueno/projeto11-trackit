@@ -35,12 +35,15 @@ export default function Cadastro() {
       })
       .catch((err) => {
         console.log(err);
-        if(err.response.data.message){
+        if (err.response.data.message) {
           const detalhesErro = err.response.data.details;
-          alert(`${err.response.data.message}${detalhesErro ? `\nDetalhes do erro: ${detalhesErro}` : ""}`);
-        }
-        else{
-          alert(err.message)
+          alert(
+            `${err.response.data.message}${
+              detalhesErro ? `\nDetalhes do erro: ${detalhesErro}` : ""
+            }`
+          );
+        } else {
+          alert(err.message);
         }
         setCarregando(false);
       });
@@ -51,6 +54,7 @@ export default function Cadastro() {
       <img src={logo} alt="" />
       <FormBox onSubmit={cadastrarUsuario}>
         <input
+          data-test="email-input"
           type="email"
           placeholder="email"
           name={"email"}
@@ -60,6 +64,7 @@ export default function Cadastro() {
           required
         />
         <input
+          data-test="password-input"
           type="password"
           placeholder="senha"
           name={"password"}
@@ -69,6 +74,7 @@ export default function Cadastro() {
           required
         />
         <input
+          data-test="user-name-input"
           type="text"
           placeholder="nome"
           name={"name"}
@@ -78,6 +84,7 @@ export default function Cadastro() {
           required
         />
         <input
+          data-test="user-image-input"
           type="text"
           placeholder="foto"
           name={"image"}
@@ -86,7 +93,8 @@ export default function Cadastro() {
           disabled={carregando}
           required
         />
-        <button type="submit" disabled={carregando}>{carregando ? (
+        <button data-test="signup-btn" type="submit" disabled={carregando}>
+          {carregando ? (
             <ThreeDots
               height="50"
               width="50"
@@ -98,11 +106,14 @@ export default function Cadastro() {
               visible={true}
             />
           ) : (
-            'Cadastrar'
-          )}</button>
+            "Cadastrar"
+          )}
+        </button>
       </FormBox>
 
-      <Link to="/">Já tem uma conta? Faça login!</Link>
+      <Link data-test="login-link" to="/">
+        Já tem uma conta? Faça login!
+      </Link>
     </StartBox>
   );
 }

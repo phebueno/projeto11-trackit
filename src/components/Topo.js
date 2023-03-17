@@ -9,7 +9,7 @@ export default function Topo() {
 
   if (location.pathname !== "/" && location.pathname !== "/cadastro") {
     return (
-      <Header>
+      <Header data-test="header">
         <h1>TrackIt</h1>
         <img src={user.image} alt="" />
       </Header>
@@ -19,7 +19,7 @@ export default function Topo() {
 
 const Header = styled.header`
   height: 70px;
-  width:inherit;
+  width: inherit;
   background-color: #126ba5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -37,11 +37,11 @@ const Header = styled.header`
     line-height: 49px;
     color: #ffffff;
   }
-  img{
+  img {
     //Configurar imagem para não quebrar. Centralizar a imagem, sem distorcer
-    width:51px;
-    height:51px;
-    object-fit:cover;    
+    width: 51px;
+    height: 51px;
+    object-fit: cover;
     border-radius: 98.5px;
   }
 `;

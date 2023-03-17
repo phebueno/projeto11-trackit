@@ -5,13 +5,13 @@ import UserContext from "../contexts/UserContext";
 import BASE_URL from "../constants/urls";
 import axios from "axios";
 
-export default function HojeItem({    
+export default function HojeItem({
   id,
   nome,
   feito,
   sequenciaAtual,
   sequenciaMaior,
-  setUpdate
+  setUpdate,
 }) {
   const user = useContext(UserContext);
   const config = {
@@ -20,36 +20,50 @@ export default function HojeItem({
     },
   };
 
-  function toggleHabito(toggle){
+  function toggleHabito(toggle) {
     const url = `${BASE_URL}/habits/${id}/${toggle}`;
     axios
-      .post(url, '', config)
-      .then((res)=>setUpdate(true))
+      .post(url, "", config)
+      .then((res) => setUpdate(true))
       .catch((err) => {
         console.log(err);
         alert("Algo deu errado!");
       });
   }
-//https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/54632/check
-//https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check
+  //https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/54632/check
+  //https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check
   return (
-    <HojeBox>
+    <HojeBox data-test="today-habit-container">
       <div>
         <div>
-          <h3>{nome}</h3>
+          <h3 data-test="today-habit-name">{nome}</h3>
         </div>
         <div>
-          <Atual feito={feito}>
+          <Atual data-test="today-habit-sequence" feito={feito}>
             Sequência atual: {sequenciaAtual}{" "}
             {sequenciaAtual === 1 ? "dia" : "dias"}
           </Atual>
-          <Maior sequenciaMaior={sequenciaMaior} sequenciaAtual={sequenciaAtual}>
+          <Maior
+            data-test="today-habit-record"
+            sequenciaMaior={sequenciaMaior}
+            sequenciaAtual={sequenciaAtual}
+          >
             Seu recorde: {sequenciaMaior}{" "}
             {sequenciaMaior === 1 ? "dia" : "dias"}
           </Maior>
         </div>
       </div>
-      {feito ? <CheckedStyle onClick={()=>toggleHabito('uncheck')}/> : <NotCheckedStyle onClick={()=>toggleHabito('check')}/>}
+      {feito ? (
+        <CheckedStyle
+          data-test="today-habit-check-btn"
+          onClick={() => toggleHabito("uncheck")}
+        />
+      ) : (
+        <NotCheckedStyle
+          data-test="today-habit-check-btn"
+          onClick={() => toggleHabito("check")}
+        />
+      )}
     </HojeBox>
   );
 }
@@ -89,7 +103,7 @@ const HojeBox = styled.div`
     line-height: 25px;
     color: #666666;
     margin-bottom: 10px;
-    max-width:230px;
+    max-width: 230px;
     //Para o conteúdo não fugir do box:
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -101,10 +115,14 @@ const HojeBox = styled.div`
   }
 `;
 
-  const Atual = styled.p`
-  color:${(props)=> props.feito ? '#8FC549':'#666666'};
-  `;
+const Atual = styled.p`
+  color: ${(props) => (props.feito ? "#8FC549" : "#666666")};
+`;
 
-  const Maior = styled.p`
+const Maior = styled.p`
   //Se não houver sequência Maior (se for 0), não pinta de verde. Se for, pinta se as sequências forem iguais
-  color:${({sequenciaAtual, sequenciaMaior})=> sequenciaMaior && sequenciaAtual === sequenciaMaior ? '#8FC549':'#666666'}`;
+  color: ${({ sequenciaAtual, sequenciaMaior }) =>
+    sequenciaMaior && sequenciaAtual === sequenciaMaior
+      ? "#8FC549"
+      : "#666666"};
+`;

@@ -55,8 +55,8 @@ export default function Hoje({setPercentage, percentage}) {
   return (
     <SectionContainer>
       <HojeTitulo percentage={percentage}>
-        <h2>{diaDaSemanaMaiusc}, {diaMes}</h2>
-        <p>{percentage===0 ?
+        <h2 data-test="today">{diaDaSemanaMaiusc}, {diaMes}</h2>
+        <p data-test="today-counter">{percentage===0 ?
         'Nenhum hábito concluído ainda':
         `${percentage}% dos hábitos concluídos`}
         </p>

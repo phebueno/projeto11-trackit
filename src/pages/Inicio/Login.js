@@ -32,13 +32,12 @@ export default function Login({ setUsuarioLogado }) {
       })
       .catch((err) => {
         console.log(err);
-        if(err.response.data.message){
+        if (err.response.data.message) {
           alert(err.response.data.message);
-        }
-        else{
+        } else {
           alert(err.message); //mensagem padrão do axios
-        }        
-        setCarregando(false);        
+        }
+        setCarregando(false);
       });
   }
 
@@ -49,6 +48,7 @@ export default function Login({ setUsuarioLogado }) {
       <img src={logo} alt="" />
       <FormBox onSubmit={login}>
         <input
+          data-test="email-input"
           type="email"
           placeholder="email"
           name={"email"}
@@ -58,6 +58,7 @@ export default function Login({ setUsuarioLogado }) {
           required
         />
         <input
+          data-test="password-input"
           type="password"
           placeholder="senha"
           name={"password"}
@@ -66,7 +67,7 @@ export default function Login({ setUsuarioLogado }) {
           disabled={carregando}
           required
         />
-        <button type="submit" disabled={carregando}>
+        <button data-test="login-btn" type="submit" disabled={carregando}>
           {carregando ? (
             <ThreeDots
               height="50"
@@ -79,12 +80,14 @@ export default function Login({ setUsuarioLogado }) {
               visible={true}
             />
           ) : (
-            'Entrar'
+            "Entrar"
           )}
         </button>
       </FormBox>
 
-      <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
+      <Link data-test="signup-link" to="/cadastro">
+        Não tem uma conta? Cadastre-se!
+      </Link>
     </StartBox>
   );
 }

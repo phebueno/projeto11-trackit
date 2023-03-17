@@ -21,27 +21,30 @@ export default function HabitoItem({ nome, dias, id, setUpdate }) {
     fundo: contorno,
   });
   function deletarHabito() {
-    const confirm = window.confirm("Você tem certeza que quer apagar este hábito?");
-    if (confirm){
-        const url = `${BASE_URL}/habits/${id}`;
-    axios
-    .delete(url,config)
-    .then((res)=>{
-        setUpdate(true);
-  })
-    .catch((err)=>{
-        alert('Algo deu errado!');
-        console.log(err);
-    })
-    }    
+    const confirm = window.confirm(
+      "Você tem certeza que quer apagar este hábito?"
+    );
+    if (confirm) {
+      const url = `${BASE_URL}/habits/${id}`;
+      axios
+        .delete(url, config)
+        .then((res) => {
+          setUpdate(true);
+        })
+        .catch((err) => {
+          alert("Algo deu errado!");
+          console.log(err);
+        });
+    }
   }
 
   return (
-    <HabitoBox>
-      <p>{nome}</p>
+    <HabitoBox data-test="habit-container">
+      <p data-test="habit-name">{nome}</p>
       <div>
         {week.map((dia, index) => (
           <DiaSemana
+            data-test="habit-day"
             key={index}
             theme={
               dias.includes(index) ? inverterTema(temaBotaoDia) : temaBotaoDia
@@ -51,7 +54,7 @@ export default function HabitoItem({ nome, dias, id, setUpdate }) {
           </DiaSemana>
         ))}
       </div>
-      <StyledBsTrash onClick={deletarHabito} />
+      <StyledBsTrash data-test="habit-delete-btn" onClick={deletarHabito} />
     </HabitoBox>
   );
 }

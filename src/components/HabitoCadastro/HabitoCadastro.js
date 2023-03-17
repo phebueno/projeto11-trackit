@@ -66,9 +66,10 @@ export default function Habito({
   }
 
   return (
-    <InputBox>
+    <InputBox data-test="habit-create-container">
       <InputInfo>
         <input
+        data-test="habit-name-input"
           type="text"
           placeholder="nome do hábito"
           name={"name"}
@@ -79,6 +80,7 @@ export default function Habito({
         <div>
           {week.map((dia, index) => (
             <DiaSemana
+            data-test="habit-day"
               key={index}
               theme={
                 adicionarHabito.days.includes(index)
@@ -94,10 +96,10 @@ export default function Habito({
         </div>
       </InputInfo>
       <BotaoContainer>
-        <BtnCancelar onClick={() => setInputHabito(false)} disabled={carregando}>
+        <BtnCancelar data-test="habit-create-cancel-btn" onClick={() => setInputHabito(false)} disabled={carregando}>
           Cancelar
         </BtnCancelar>
-        <BtnSalvar onClick={salvar} disabled={carregando}>{carregando ? (
+        <BtnSalvar data-test="habit-create-save-btn" onClick={salvar} disabled={carregando}>{carregando ? (
             <ThreeDots
               height="40"
               width="40"
