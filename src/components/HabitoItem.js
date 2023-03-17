@@ -21,7 +21,7 @@ export default function HabitoItem({ nome, dias, id, setUpdate }) {
     fundo: contorno,
   });
   function deletarHabito() {
-    const confirm = window.confirm("Você temm certeza que quer apagar este hábito?");
+    const confirm = window.confirm("Você tem certeza que quer apagar este hábito?");
     if (confirm){
         const url = `${BASE_URL}/habits/${id}`;
     axios

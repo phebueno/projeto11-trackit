@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import temaBotaoDia from "./TemaBotaoDia";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import BASE_URL from "../../constants/urls";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Habito({
   adicionarHabito,
   setAdicionarHabito,
   setInputHabito,
-  setUpdate
+  setUpdate,
 }) {
   const week = ["D", "S", "T", "Q", "Q", "S", "S"];
 
@@ -19,6 +20,7 @@ export default function Habito({
       Authorization: `Bearer ${user.token}`,
     },
   };
+  const [carregando, setCarregando] = useState(false);
 
   const inverterTema = ({ contorno, fundo }) => ({
     contorno: fundo,
@@ -26,6 +28,7 @@ export default function Habito({
   });
 
   function salvar() {
+    setCarregando(true);
     const url = `${BASE_URL}/habits`;
     axios
       .post(url, adicionarHabito, config)
@@ -40,6 +43,7 @@ export default function Habito({
       })
       .catch((err) => {
         alert("Deu ruim!");
+        setCarregando(false);
         console.log(err);
       });
   }
@@ -65,6 +69,7 @@ export default function Habito({
           name={"name"}
           value={adicionarHabito.name}
           onChange={handleChange}
+          disabled={carregando}
         />
         <div>
           {week.map((dia, index) => (
@@ -74,8 +79,9 @@ export default function Habito({
                 adicionarHabito.days.includes(index)
                   ? inverterTema(temaBotaoDia)
                   : temaBotaoDia
-              }
-              onClick={() => toggleDay(index)}
+              }              
+              onClick={() => toggleDay(index)} 
+              disabled={carregando} //elemento span não pode levar disabled normalmente!
             >
               {dia}
             </DiaSemana>
@@ -83,10 +89,23 @@ export default function Habito({
         </div>
       </InputInfo>
       <BotaoContainer>
-        <BtnCancelar onClick={() => setInputHabito(false)}>
+        <BtnCancelar onClick={() => setInputHabito(false)} disabled={carregando}>
           Cancelar
         </BtnCancelar>
-        <BtnSalvar onClick={salvar}>Salvar</BtnSalvar>
+        <BtnSalvar onClick={salvar} disabled={carregando}>{carregando ? (
+            <ThreeDots
+              height="40"
+              width="40"
+              radius="9"
+              color="#FFFFFF"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          ) : (
+            'Salvar'
+          )}</BtnSalvar>
       </BotaoContainer>
     </InputBox>
   );
@@ -111,7 +130,8 @@ const InputBox = styled.div`
 `;
 
 const DiaSemana = styled.span`
-  cursor: pointer;
+  pointer-events: ${(props) => props.disabled ? "none" : "auto"}; //desabilita no loading
+  cursor: pointer; //também é desabilitado indiretamente
   width: 30px;
   height: 30px;
   border: 1px solid ${(props) => props.theme.contorno};
@@ -147,6 +167,10 @@ const BtnCancelar = styled.button`
   line-height: 20px;
   color: #52b6ff;
   background-color: #ffffff;
+  :disabled{
+    color: #52b6ff;
+    background-color: #ffffff;
+  }
 `;
 
 const BtnSalvar = styled.button`
