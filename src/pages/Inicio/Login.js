@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import { FormBox, StartBox } from "./styled";
 import { useState } from "react";
 import axios from "axios";
+import BASE_URL from "../../constants/urls";
 
 export default function Login({setUsuarioLogado}) {
 
@@ -19,9 +20,9 @@ export default function Login({setUsuarioLogado}) {
 
   function login(e){
     e.preventDefault();
-    const baseURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+    const url = `${BASE_URL}/auth/login`;
     axios
-      .post(baseURL, loginUsuario)
+      .post(url, loginUsuario)
       .then((res) => {
         console.log(res);
         setUsuarioLogado(res.data);

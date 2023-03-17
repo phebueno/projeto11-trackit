@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import BASE_URL from "../../constants/urls";
 import { FormBox, StartBox } from "./styled";
 
 export default function Cadastro() {
-
   const navigate = useNavigate();
   const [cadastroUsuario, setCadastroUsuario] = useState({
     email: "",
@@ -23,11 +23,10 @@ export default function Cadastro() {
 
   function cadastrarUsuario(e) {
     e.preventDefault();
-    const baseURL =
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
-    
+    const url = `${BASE_URL}/auth/sign-up`;
+
     axios
-      .post(baseURL, cadastroUsuario)
+      .post(url, cadastroUsuario)
       .then((res) => {
         navigate("/");
       })

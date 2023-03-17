@@ -1,17 +1,17 @@
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-
-//Remover depois:
-import placeholder from "../assets/placeholder.png"
+import UserContext from "../contexts/UserContext";
 
 export default function Topo() {
   const location = useLocation();
+  const user = useContext(UserContext);
 
   if (location.pathname !== "/" && location.pathname !== "/cadastro") {
     return (
       <Header>
         <h1>TrackIt</h1>
-        <img src={placeholder} alt="" />
+        <img src={user.image} alt="" />
       </Header>
     );
   }
@@ -29,6 +29,7 @@ const Header = styled.header`
   position: fixed;
   top: 0;
   box-sizing: border-box;
+  z-index: 1;
   h1 {
     font-family: "Playball";
     font-weight: 400;
@@ -38,6 +39,9 @@ const Header = styled.header`
   }
   img{
     //Configurar imagem para não quebrar. Centralizar a imagem, sem distorcer
+    width:51px;
+    height:51px;
+    object-fit:cover;    
     border-radius: 98.5px;
   }
 `;
