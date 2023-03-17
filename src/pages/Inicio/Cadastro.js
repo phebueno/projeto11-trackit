@@ -34,9 +34,14 @@ export default function Cadastro() {
         navigate("/");
       })
       .catch((err) => {
-        alert("Algo deu errado!");
-        console.log(err.response.data.message);
-        console.log(err.response.data.details);
+        console.log(err);
+        if(err.response.data.message){
+          const detalhesErro = err.response.data.details;
+          alert(`${err.response.data.message}${detalhesErro ? `\nDetalhes do erro: ${detalhesErro}` : ""}`);
+        }
+        else{
+          alert(err.message)
+        }
         setCarregando(false);
       });
   }
@@ -52,6 +57,7 @@ export default function Cadastro() {
           value={cadastroUsuario.email}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <input
           type="password"
@@ -60,6 +66,7 @@ export default function Cadastro() {
           value={cadastroUsuario.password}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <input
           type="text"
@@ -68,6 +75,7 @@ export default function Cadastro() {
           value={cadastroUsuario.name}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <input
           type="text"
@@ -76,6 +84,7 @@ export default function Cadastro() {
           value={cadastroUsuario.image}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <button type="submit" disabled={carregando}>{carregando ? (
             <ThreeDots

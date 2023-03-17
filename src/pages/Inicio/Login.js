@@ -31,9 +31,14 @@ export default function Login({ setUsuarioLogado }) {
         navigate("/hoje");
       })
       .catch((err) => {
-        alert("Algo deu errado!");
-        setCarregando(false);
         console.log(err);
+        if(err.response.data.message){
+          alert(err.response.data.message);
+        }
+        else{
+          alert(err.message); //mensagem padrão do axios
+        }        
+        setCarregando(false);        
       });
   }
 
@@ -50,6 +55,7 @@ export default function Login({ setUsuarioLogado }) {
           value={loginUsuario.email}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <input
           type="password"
@@ -58,6 +64,7 @@ export default function Login({ setUsuarioLogado }) {
           value={loginUsuario.password}
           onChange={handleChange}
           disabled={carregando}
+          required
         />
         <button type="submit" disabled={carregando}>
           {carregando ? (

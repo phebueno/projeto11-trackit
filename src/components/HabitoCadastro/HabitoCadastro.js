@@ -42,9 +42,14 @@ export default function Habito({
         setUpdate(true);
       })
       .catch((err) => {
-        alert("Deu ruim!");
-        setCarregando(false);
         console.log(err);
+        if(err.response.data.message){
+          alert(err.response.data.message);
+        }
+        else{
+          alert(err.message); //erro padrão do axios
+        }      
+        setCarregando(false);
       });
   }
 
