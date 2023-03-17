@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
-import temaBotaoDia from "./TemaBotaoDia";
+import {temaBotaoDia, temaBotaoDiaSelecionado} from "./TemaBotaoDia";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import BASE_URL from "../../constants/urls";
@@ -21,12 +21,7 @@ export default function Habito({
     },
   };
   const [carregando, setCarregando] = useState(false);
-
-  const inverterTema = ({ contorno, fundo }) => ({
-    contorno: fundo,
-    fundo: contorno,
-  });
-
+ 
   function salvar() {
     setCarregando(true);
     const url = `${BASE_URL}/habits`;
@@ -84,7 +79,7 @@ export default function Habito({
               key={index}
               theme={
                 adicionarHabito.days.includes(index)
-                  ? inverterTema(temaBotaoDia)
+                  ? temaBotaoDiaSelecionado
                   : temaBotaoDia
               }              
               onClick={() => toggleDay(index)} 
@@ -141,16 +136,16 @@ const DiaSemana = styled.span`
   cursor: pointer; //também é desabilitado indiretamente
   width: 30px;
   height: 30px;
-  border: 1px solid ${(props) => props.theme.contorno};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 4px;
-  background: ${(props) => props.theme.fundo};
+  background: ${(props) => props.theme.background};
 
-  color: ${(props) => props.theme.contorno};
+  color: ${(props) => props.theme.fontcolor};
   font-size: 19.976px;
   line-height: 25px;
 `;

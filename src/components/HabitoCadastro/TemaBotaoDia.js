@@ -1,8 +1,15 @@
  //TEMA DIAS DA SEMANA
 
- const temaBotaoDia = {
-    contorno: "#CFCFCF",
-    fundo: "#FFFFFF",
+ export const temaBotaoDia = {
+    fontcolor: "#DBDBDB",
+    border: "#D4D4D4",
+    background: "#FFFFFF",
   };
 
-  export default temaBotaoDia;
+  export const temaBotaoDiaSelecionado = {
+    fontcolor: "#FFFFFF",
+    border: "#CFCFCF",
+    background: "#CFCFCF",
+  };
+
+

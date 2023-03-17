@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BsTrash } from "react-icons/bs";
-import temaBotaoDia from "./HabitoCadastro/TemaBotaoDia";
+import {temaBotaoDia, temaBotaoDiaSelecionado} from "./HabitoCadastro/TemaBotaoDia";
 import BASE_URL from "../constants/urls";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
@@ -16,10 +16,6 @@ export default function HabitoItem({ nome, dias, id, setUpdate }) {
     },
   };
 
-  const inverterTema = ({ contorno, fundo }) => ({
-    contorno: fundo,
-    fundo: contorno,
-  });
   function deletarHabito() {
     const confirm = window.confirm(
       "Você tem certeza que quer apagar este hábito?"
@@ -47,7 +43,7 @@ export default function HabitoItem({ nome, dias, id, setUpdate }) {
             data-test="habit-day"
             key={index}
             theme={
-              dias.includes(index) ? inverterTema(temaBotaoDia) : temaBotaoDia
+              dias.includes(index) ? temaBotaoDiaSelecionado : temaBotaoDia
             }
           >
             {dia}
@@ -104,16 +100,16 @@ const DiaSemana = styled.span`
   cursor: default;
   width: 30px;
   height: 30px;
-  border: 1px solid ${(props) => props.theme.contorno};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 4px;
-  background: ${(props) => props.theme.fundo};
+  background: ${(props) => props.theme.background};
 
-  color: ${(props) => props.theme.contorno};
+  color: ${(props) => props.theme.fontcolor};
   font-size: 19.976px;
   line-height: 25px;
 `;
