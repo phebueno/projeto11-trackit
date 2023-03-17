@@ -33,8 +33,8 @@ export default function Habitos() {
           setUpdate(false);
         })
         .catch((err) => {
-          alert("Algo deu errado!");
           console.log(err);
+          alert("Algo deu errado!");          
         });
     }
   }, [update, user]);

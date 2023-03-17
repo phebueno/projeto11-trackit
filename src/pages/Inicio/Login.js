@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../constants/urls";
 import { ThreeDots } from "react-loader-spinner";
+import dayjs from "dayjs";
 
 export default function Login({ setUsuarioLogado }) {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Login({ setUsuarioLogado }) {
     password: "",
   });
   const [carregando, setCarregando] = useState(false);
-
+  
   //Atualiza e armazena o estado de cadastro do usuário
   function handleChange(e) {
     setLoginUsuario({ ...loginUsuario, [e.target.name]: e.target.value });

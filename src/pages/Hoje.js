@@ -1,99 +1,78 @@
 import styled from "styled-components";
 import { SectionContainer } from "../styles/SectionContainer";
-import { BsFillCheckSquareFill } from "react-icons/bs";
 import UserContext from "../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import BASE_URL from "../constants/urls";
+import axios from "axios";
+import HojeItem from "../components/HojeItem";
+import dayjs from "dayjs";
 
 export default function Hoje() {
-  const objetoRecebido = useContext(UserContext);
+  const user = useContext(UserContext);
   const percentage = 50;
+  const [listaHoje, setListaHoje] = useState([]);  
 
-  console.log(objetoRecebido);
+  //INÍCIO USO DE DIAS
+
+  require('dayjs/locale/pt-br'); //puxa o locale pt-br
+  var localeData = require('dayjs/plugin/localeData');
+  dayjs.extend(localeData); //libera o uso do plugin para usar meses e dias
+  dayjs.locale('pt-br'); //seta o locale pt-br
+  const weekdays = dayjs.weekdays()
+  
+  let now = dayjs();
+  //variáveis fixas que só mudam se atualizar o site
+    const diaDaSemana = weekdays[now.day()];
+    const diaDaSemanaMaiusc = diaDaSemana.charAt(0).toUpperCase() + diaDaSemana.slice(1);
+    const diaMes = now.format('DD/MM');
+  //FIM USO DE DIAS
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const url = `${BASE_URL}/habits/today`;
+    axios
+      .get(url, config)
+      .then((res) => {
+        setListaHoje(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Algo deu errado!");
+      });
+  }, [user]);
   return (
     <SectionContainer>
       <HojeTitulo>
-        <h2>Segunda, 17/05</h2>
+        <h2>{diaDaSemanaMaiusc}, {diaMes}</h2>
         <p>{percentage}% dos hábitos concluídos</p>
       </HojeTitulo>
       <HojeList>
-        <HojeBox>
-          <div>
-            <div>
-              <h3>Ler 1 capítulo de livro</h3>
-            </div>
-            <div>
-              <p>Sequência atual: 3 dias</p>
-              <p>Seu recorde: 3 dias</p>
-            </div>
-          </div>
-          <NotCheckedStyle />
-        </HojeBox>
-        <HojeBox>
-          <div>
-            <div>
-              <h3>Ler 1 capítulo de livro </h3>
-            </div>
-            <div>
-              <p>Sequência atual: 3 dias</p>
-              <p>Seu recorde: 3 dias</p>
-            </div>
-          </div>
-          <CheckedStyle />
-        </HojeBox>
+        {listaHoje &&
+          listaHoje.map((itemHoje, index) => (
+            <HojeItem
+              key={index}
+              id={itemHoje.id}
+              nome={itemHoje.name}
+              feito={itemHoje.done}
+              sequenciaAtual={itemHoje.currentSequence}
+              sequenciaMaior={itemHoje.highestSequence}
+            />
+          ))}
       </HojeList>
     </SectionContainer>
   );
 }
 
-const CheckedStyle = styled(BsFillCheckSquareFill)`
-color:#8FC549;
-font-size:65px;
-border-radius: 10px;
-`;
-
-const NotCheckedStyle = styled(BsFillCheckSquareFill)`
-color:#EBEBEB;
-font-size:65px;
-border: 1px solid #E7E7E7;
-border-radius: 10px;
-box-sizing: border-box;
-
-`;
-
-const HojeBox = styled.div`
-  width: 340px;
-  min-height: 94px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  border: none;
-  padding: 15px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  div{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  h3 {
-    font-size: 19.976px;
-    line-height: 25px;
-    color: #666666;
-    margin-bottom: 10px;;
-  }
-  p{
-    font-size: 12.976px;
-    line-height: 16px;
-    color: #666666;
-  }
-`;
-
 const HojeList = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 30px;
-  gap:10px;
+  gap: 10px;
 `;
 
 const HojeTitulo = styled.div`
