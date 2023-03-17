@@ -43,6 +43,7 @@ export default function Hoje({setPercentage, percentage}) {
           setListaHoje(res.data);
           const tarefasFeitas = res.data.filter((item)=> item.done === true);
           setPercentage(Math.floor(tarefasFeitas.length/res.data.length*100));
+          if(res.data.length===0) setPercentage(0); //se não tiver valor, força a ser 0
           setUpdate(false);
         })
         .catch((err) => {
@@ -54,9 +55,9 @@ export default function Hoje({setPercentage, percentage}) {
 
   return (
     <SectionContainer>
-      <HojeTitulo percentage={percentage}>
+      <HojeTitulo percentage={percentage} habitosLista={listaHoje.length}>
         <h2 data-test="today">{diaDaSemanaMaiusc}, {diaMes}</h2>
-        <p data-test="today-counter">{percentage===0 ?
+        <p data-test="today-counter">{(percentage===0) || (listaHoje.length===0) ? //nenhum hábito concluído ou nenhum hábito feito
         'Nenhum hábito concluído ainda':
         `${percentage}% dos hábitos concluídos`}
         </p>
@@ -98,6 +99,6 @@ const HojeTitulo = styled.div`
   p {
     font-size: 17.976px;
     line-height: 22px;
-    color: ${(props)=>props.percentage === 0 ? '#BABABA': '#8fc549'};
+    color: ${({percentage,habitosLista})=>(percentage === 0)||(habitosLista === 0) ? '#BABABA': '#8fc549'};
   }
 `;
