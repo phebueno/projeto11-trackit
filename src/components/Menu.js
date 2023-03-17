@@ -2,11 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import PercentageContext from "../contexts/PercentageContext";
+import { useContext } from "react";
 
 export default function Menu() {
   const location = useLocation();
   //Porcentagem editável progressbar
-  const percentage = 66;
+  const percentage = useContext(PercentageContext);
 
   if (location.pathname !== "/" && location.pathname !== "/cadastro") {
     return (

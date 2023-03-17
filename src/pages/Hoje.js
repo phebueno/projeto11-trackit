@@ -7,13 +7,13 @@ import axios from "axios";
 import HojeItem from "../components/HojeItem";
 import dayjs from "dayjs";
 
-export default function Hoje() {
+export default function Hoje({setPercentage, percentage}) {
   const user = useContext(UserContext);
-  const percentage = 50;
-  const [listaHoje, setListaHoje] = useState([]);  
+  
+  const [listaHoje, setListaHoje] = useState([]);
+  const [update, setUpdate] = useState(true);
 
   //INÍCIO USO DE DIAS
-
   require('dayjs/locale/pt-br'); //puxa o locale pt-br
   var localeData = require('dayjs/plugin/localeData');
   dayjs.extend(localeData); //libera o uso do plugin para usar meses e dias
@@ -27,29 +27,39 @@ export default function Hoje() {
     const diaMes = now.format('DD/MM');
   //FIM USO DE DIAS
 
-  useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
 
-    const url = `${BASE_URL}/habits/today`;
-    axios
-      .get(url, config)
-      .then((res) => {
-        setListaHoje(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Algo deu errado!");
-      });
-  }, [user]);
+  useEffect(() => {
+    if(update===true){
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+  
+      const url = `${BASE_URL}/habits/today`;
+      axios
+        .get(url, config)
+        .then((res) => {
+          setListaHoje(res.data);
+          const tarefasFeitas = res.data.filter((item)=> item.done === true);
+          setPercentage(Math.floor(tarefasFeitas.length/res.data.length*100));
+          setUpdate(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Algo deu errado!");
+        });
+    }    
+  }, [user,update,setPercentage]);
+
   return (
     <SectionContainer>
-      <HojeTitulo>
+      <HojeTitulo percentage={percentage}>
         <h2>{diaDaSemanaMaiusc}, {diaMes}</h2>
-        <p>{percentage}% dos hábitos concluídos</p>
+        <p>{percentage===0 ?
+        'Nenhum hábito concluído ainda':
+        `${percentage}% dos hábitos concluídos`}
+        </p>
       </HojeTitulo>
       <HojeList>
         {listaHoje &&
@@ -61,6 +71,7 @@ export default function Hoje() {
               feito={itemHoje.done}
               sequenciaAtual={itemHoje.currentSequence}
               sequenciaMaior={itemHoje.highestSequence}
+              setUpdate={setUpdate}
             />
           ))}
       </HojeList>
@@ -87,6 +98,6 @@ const HojeTitulo = styled.div`
   p {
     font-size: 17.976px;
     line-height: 22px;
-    color: #8fc549;
+    color: ${(props)=>props.percentage === 0 ? '#BABABA': '#8fc549'};
   }
 `;

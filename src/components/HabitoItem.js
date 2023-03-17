@@ -82,6 +82,10 @@ const HabitoBox = styled.div`
     font-size: 19.976px;
     line-height: 25px;
     color: #666666;
+    //Para o conteúdo não fugir do box:
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
   div {
     display: flex;

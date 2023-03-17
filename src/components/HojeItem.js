@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { BsFillCheckSquareFill } from "react-icons/bs";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
+import BASE_URL from "../constants/urls";
+import axios from "axios";
 
 export default function HojeItem({    
   id,
@@ -7,7 +11,27 @@ export default function HojeItem({
   feito,
   sequenciaAtual,
   sequenciaMaior,
+  setUpdate
 }) {
+  const user = useContext(UserContext);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+
+  function toggleHabito(toggle){
+    const url = `${BASE_URL}/habits/${id}/${toggle}`;
+    axios
+      .post(url, '', config)
+      .then((res)=>setUpdate(true))
+      .catch((err) => {
+        console.log(err);
+        alert("Algo deu errado!");
+      });
+  }
+//https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/54632/check
+//https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check
   return (
     <HojeBox>
       <div>
@@ -15,17 +39,17 @@ export default function HojeItem({
           <h3>{nome}</h3>
         </div>
         <div>
-          <p>
+          <Atual feito={feito}>
             Sequência atual: {sequenciaAtual}{" "}
             {sequenciaAtual === 1 ? "dia" : "dias"}
-          </p>
-          <p>
+          </Atual>
+          <Maior sequenciaMaior={sequenciaMaior} sequenciaAtual={sequenciaAtual}>
             Seu recorde: {sequenciaMaior}{" "}
             {sequenciaMaior === 1 ? "dia" : "dias"}
-          </p>
+          </Maior>
         </div>
       </div>
-      {feito ? <CheckedStyle /> : <NotCheckedStyle />}
+      {feito ? <CheckedStyle onClick={()=>toggleHabito('uncheck')}/> : <NotCheckedStyle onClick={()=>toggleHabito('check')}/>}
     </HojeBox>
   );
 }
@@ -65,10 +89,22 @@ const HojeBox = styled.div`
     line-height: 25px;
     color: #666666;
     margin-bottom: 10px;
+    max-width:230px;
+    //Para o conteúdo não fugir do box:
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
   p {
     font-size: 12.976px;
     line-height: 16px;
-    color: #666666;
   }
 `;
+
+  const Atual = styled.p`
+  color:${(props)=> props.feito ? '#8FC549':'#666666'};
+  `;
+
+  const Maior = styled.p`
+  //Se não houver sequência Maior (se for 0), não pinta de verde. Se for, pinta se as sequências forem iguais
+  color:${({sequenciaAtual, sequenciaMaior})=> sequenciaMaior && sequenciaAtual === sequenciaMaior ? '#8FC549':'#666666'}`;
