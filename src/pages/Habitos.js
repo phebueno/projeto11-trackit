@@ -6,6 +6,8 @@ import BASE_URL from "../constants/urls";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import HabitoItem from "../components/HabitoItem";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Habitos() {
   const [inputHabito, setInputHabito] = useState(false);
@@ -16,6 +18,8 @@ export default function Habitos() {
   const [listaHabitos, setListaHabitos] = useState([]);
   const [update, setUpdate] = useState(true);
   const user = useContext(UserContext);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (update === true) {
@@ -34,10 +38,12 @@ export default function Habitos() {
         })
         .catch((err) => {
           console.log(err);
-          alert("Algo deu errado!");          
+          alert("Algo deu errado! Tente novamente");
+          localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
+          navigate('/');        
         });
     }
-  }, [update, user]);
+  }, [update, user, navigate]);
 
   return (
     <SectionContainer>

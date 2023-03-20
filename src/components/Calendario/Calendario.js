@@ -6,10 +6,13 @@ import UserContext from "../../contexts/UserContext";
 import "./Calendario.css";
 import dayjs from "dayjs";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Calendario({setHabitosDiarios}) {
   const user = useContext(UserContext);
   const [infoCalendario, setInfoCalendario] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const config = {
@@ -26,9 +29,11 @@ export default function Calendario({setHabitosDiarios}) {
       })
       .catch((err) => {
         console.log(err);
-        alert("Algo deu errado!");
+        alert("Algo deu errado! Tente novamente");
+        localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
+        navigate('/');
       });
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <div>

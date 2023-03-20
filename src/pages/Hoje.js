@@ -6,12 +6,16 @@ import BASE_URL from "../constants/urls";
 import axios from "axios";
 import HojeItem from "../components/HojeItem";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Hoje({setPercentage, percentage}) {
   const user = useContext(UserContext);
   
   const [listaHoje, setListaHoje] = useState([]);
   const [update, setUpdate] = useState(true);
+  const navigate = useNavigate();
+
 
   //INÍCIO USO DE DIAS
   require('dayjs/locale/pt-br'); //puxa o locale pt-br
@@ -48,10 +52,12 @@ export default function Hoje({setPercentage, percentage}) {
         })
         .catch((err) => {
           console.log(err);
-          alert("Algo deu errado!");
+          alert("Algo deu errado! Tente novamente");
+          localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
+          navigate('/');
         });
     }    
-  }, [user,update,setPercentage]);
+  }, [user,update,setPercentage,navigate]);
 
   return (
     <SectionContainer>
