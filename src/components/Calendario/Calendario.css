@@ -31,6 +31,7 @@
   border-radius: 10px;
   border:none;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 .react-calendar--doubleView {
   width: 700px;

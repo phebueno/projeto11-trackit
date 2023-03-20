@@ -48,6 +48,7 @@ function getDay(day, infoCalendario, setHabitosDiarios){
     if(diaHabito){
         setHabitosDiarios(diaHabito.habits);
     }
+    else setHabitosDiarios([]); //Limpa o array se não encontrar valores
 }
 
 function setDay(day, infoCalendario) {
