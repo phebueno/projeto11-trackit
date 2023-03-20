@@ -38,7 +38,7 @@ const Header = styled.header`
   position: fixed;
   top: 0;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: 3;
   h1 {
     font-family: "Playball";
     font-weight: 400;

@@ -23,7 +23,7 @@ export default function HojeItem({
   };
 
   /**
-   * A ideia aqui é que o clique do botão do Check só seja liberado quando receber resposta do servidor.
+   * A ideia do useEffect aqui é que o clique do botão do Check só seja liberado quando receber resposta do servidor.
    * Isso funciona porque se não, dependendo do momento que o botão for clicado, são enviadas requisições
    * duplicadas para o servidor, que ainda tem que responder a outra requisição de atualização da página
    * Se a requisição duplicada for enviada enquanto o servidor responde à atualização GET de atualização

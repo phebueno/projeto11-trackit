@@ -7,7 +7,7 @@ import "./Calendario.css";
 import dayjs from "dayjs";
 import styled from "styled-components";
 
-export default function Calendario() {
+export default function Calendario({setHabitosDiarios}) {
   const user = useContext(UserContext);
   const [infoCalendario, setInfoCalendario] = useState([]);
 
@@ -35,18 +35,18 @@ export default function Calendario() {
       <Calendar
         calendarType="US"
         tileContent={(day) => setDay(day, infoCalendario)}
-        onClickDay={(day) => getDay(day, infoCalendario)}
+        onClickDay={(day) => getDay(day, infoCalendario, setHabitosDiarios)}
       />
     </div>
   );
 }
 
-function getDay(day, infoCalendario){
+function getDay(day, infoCalendario, setHabitosDiarios){
     const diaHabito = infoCalendario.find(
         (item) => item.day === dayjs(day).format("DD/MM/YYYY")
       );
     if(diaHabito){
-        console.log(diaHabito.habits);
+        setHabitosDiarios(diaHabito.habits);
     }
 }
 
