@@ -13,8 +13,7 @@ export default function HojeItem({
   sequenciaMaior,
   setUpdate,
 }) {
-
-  const [disableHabito,setDisableHabito] = useState(false); //para não bugar o código, enviar duas requisições diferentes sem tempo de resposta
+  const [disableHabito, setDisableHabito] = useState(false); //para não bugar o código, enviar duas requisições diferentes sem tempo de resposta
   const user = useContext(UserContext);
   const config = {
     headers: {
@@ -32,9 +31,9 @@ export default function HojeItem({
    * Poderia ter utilizado algum outro estado, mas esse faz mas sentido pelo uso dele ser justamente para
    * os botões.
    */
-  useEffect(()=>{
+  useEffect(() => {
     setDisableHabito(false);
-  },[feito])
+  }, [feito]);
 
   function toggleHabito(toggle) {
     setDisableHabito(true);
@@ -67,6 +66,7 @@ export default function HojeItem({
             data-test="today-habit-record"
             sequenciaMaior={sequenciaMaior}
             sequenciaAtual={sequenciaAtual}
+            feito={feito}
           >
             Seu recorde: {sequenciaMaior}{" "}
             {sequenciaMaior === 1 ? "dia" : "dias"}
@@ -74,12 +74,14 @@ export default function HojeItem({
         </div>
       </div>
       {feito ? (
-        <CheckedStyle disabled={disableHabito}
+        <CheckedStyle
+          disabled={disableHabito}
           data-test="today-habit-check-btn"
           onClick={() => toggleHabito("uncheck")}
         />
       ) : (
-        <NotCheckedStyle disabled={disableHabito}
+        <NotCheckedStyle
+          disabled={disableHabito}
           data-test="today-habit-check-btn"
           onClick={() => toggleHabito("check")}
         />
@@ -89,16 +91,22 @@ export default function HojeItem({
 }
 
 const CheckedStyle = styled(BsFillCheckSquareFill)`
-pointer-events: ${(props) => props.disabled ? "none" : "auto"}; //desabilita enquanto não há resposta do servidor
-cursor:pointer;
+  pointer-events: ${(props) =>
+    props.disabled
+      ? "none"
+      : "auto"}; //desabilita enquanto não há resposta do servidor
+  cursor: pointer;
   color: #8fc549;
   font-size: 65px;
   border-radius: 10px;
 `;
 
 const NotCheckedStyle = styled(BsFillCheckSquareFill)`
-pointer-events: ${(props) => props.disabled ? "none" : "auto"}; //desabilita enquanto não há resposta do servidor
-cursor:pointer;
+  pointer-events: ${(props) =>
+    props.disabled
+      ? "none"
+      : "auto"}; //desabilita enquanto não há resposta do servidor
+  cursor: pointer;
   color: #ebebeb;
   font-size: 65px;
   border: 1px solid #e7e7e7;
@@ -144,9 +152,13 @@ const Atual = styled.p`
 `;
 
 const Maior = styled.p`
-  //Se não houver sequência Maior (se for 0), não pinta de verde. Se for, pinta se as sequências forem iguais
-  color: ${({ sequenciaAtual, sequenciaMaior }) =>
-    sequenciaMaior && sequenciaAtual === sequenciaMaior
+  /**
+  - Se não estiver feito, não pinta de verde
+  Se não houver sequência Maior (se for 0), não pinta de verde.
+  Se for, pinta se as sequências forem iguais
+  */
+  color: ${({ sequenciaAtual, sequenciaMaior, feito }) =>
+    feito && sequenciaMaior && sequenciaAtual === sequenciaMaior
       ? "#8FC549"
       : "#666666"};
 `;
