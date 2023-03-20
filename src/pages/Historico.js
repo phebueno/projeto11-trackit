@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Calendario from "../components/Calendario";
+import Calendario from "../components/Calendario/Calendario";
 import { SectionContainer } from "../styles/SectionContainer";
 
 export default function Historico() {

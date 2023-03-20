@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import BASE_URL from "../constants/urls";
-import UserContext from "../contexts/UserContext";
+import BASE_URL from "../../constants/urls";
+import UserContext from "../../contexts/UserContext";
 import "./Calendario.css";
 import dayjs from "dayjs";
 import styled from "styled-components";
@@ -34,29 +34,30 @@ export default function Calendario() {
     <div>
       <Calendar
         calendarType="US"
-        tileContent={(day) => getDay(day, infoCalendario)}
-        onClickDay={(day) => console.log(day)}
+        tileContent={(day) => setDay(day, infoCalendario)}
+        onClickDay={(day) => getDay(day, infoCalendario)}
       />
     </div>
   );
 }
 
-function getDay(day, infoCalendario) {
+function getDay(day, infoCalendario){
+    const diaHabito = infoCalendario.find(
+        (item) => item.day === dayjs(day).format("DD/MM/YYYY")
+      );
+    if(diaHabito){
+        console.log(diaHabito.habits);
+    }
+}
+
+function setDay(day, infoCalendario) {
   //INÍCIO USO DE DIAS
   require("dayjs/locale/pt-br"); //puxa o locale pt-br
   var localeData = require("dayjs/plugin/localeData");
   dayjs.extend(localeData); //libera o uso do plugin para usar meses e dias
   dayjs.locale("pt-br"); //seta o locale pt-br
-  const weekdays = dayjs.weekdays();
 
   let now = dayjs();
-  //variáveis fixas que só mudam se atualizar o site
-  const diaDaSemana = weekdays[now.day()];
-  const diaDaSemanaMaiusc =
-    diaDaSemana.charAt(0).toUpperCase() + diaDaSemana.slice(1);
-  const diaMes = now.format("DD/MM");
-  //FIM USO DE DIAS
-
   //Verifica se é ocorre nos dias já passados
   const diaPassado = dayjs(day.date).isBefore(now, "day");
 
