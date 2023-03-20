@@ -53,8 +53,8 @@ export default function Hoje({setPercentage, percentage}) {
         .catch((err) => {
           console.log(err);
           alert("Algo deu errado! Tente novamente");
-          localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
-          navigate('/');
+          //localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
+          //navigate('/');
         });
     }    
   }, [user,update,setPercentage,navigate]);

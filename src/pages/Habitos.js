@@ -39,8 +39,8 @@ export default function Habitos() {
         .catch((err) => {
           console.log(err);
           alert("Algo deu errado! Tente novamente");
-          localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
-          navigate('/');        
+          //localStorage.removeItem("lista"); //obrigado o usuário a logar de novo
+          //navigate('/');        
         });
     }
   }, [update, user, navigate]);
